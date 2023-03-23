@@ -1,9 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 
 namespace LensDistortionCorrect
 {
@@ -11,30 +8,17 @@ namespace LensDistortionCorrect
     {
         static void Main(string[] args)
         {
+            // чтение изображения из файла в Bitmap
             Bitmap bitmapImg = LoadBitmap("C:\\Users\\User\\Desktop\\IMG_20211011_170030.jpg");
 
+            // получение массива пикселей изображения из Bitmap
             byte[,,] imgAsArray = BitmapToByteRgb(bitmapImg);
 
-            Bitmap bmp = ByteRgbToBitmap(imgAsArray);   
+            // получение Bitmap из массива пикселей
+            Bitmap bmp = ByteRgbToBitmap(imgAsArray);
 
+            // сохранение изображения из Bitmap в файл
             SaveBitmap(bmp, "C:\\Users\\User\\Desktop\\qwe1.jpg", 95);
-        }
-
-        // сохранение изображения из Bitmap в файл
-        public static void SaveBitmap(Bitmap bmp,string path, int quality)
-        {
-            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
-            ImageCodecInfo ici = null;
-            foreach (ImageCodecInfo codec in codecs)
-            {
-                if (codec.MimeType == "image/jpeg")
-                    ici = codec;
-            }
-
-            EncoderParameters ep = new EncoderParameters();
-            ep.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)quality);
-
-            bmp.Save(path, ici, ep);
         }
 
         // чтение изображения из файла в Bitmap
@@ -45,7 +29,7 @@ namespace LensDistortionCorrect
                 return new Bitmap(fileStream);
             }
         }
-
+            
         // получение массива пикселей изображения из Bitmap
         public unsafe static byte[,,] BitmapToByteRgb(Bitmap bmp)
         {
@@ -124,6 +108,23 @@ namespace LensDistortionCorrect
             }
 
             return bmp;
+        }
+
+        // сохранение изображения из Bitmap в файл
+        public static void SaveBitmap(Bitmap bmp, string path, int quality)
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
+            ImageCodecInfo ici = null;
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.MimeType == "image/jpeg")
+                    ici = codec;
+            }
+
+            EncoderParameters ep = new EncoderParameters();
+            ep.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)quality);
+
+            bmp.Save(path, ici, ep);
         }
     }
 }
