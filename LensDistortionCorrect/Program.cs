@@ -29,7 +29,7 @@ namespace LensDistortionCorrect
                 return new Bitmap(fileStream);
             }
         }
-            
+
         // получение массива пикселей изображения из Bitmap
         public unsafe static byte[,,] BitmapToByteRgb(Bitmap bmp)
         {
